@@ -35,11 +35,11 @@ class SqlApiTest(helpers.ApiHelper):
       'start':cur_time-600,
       'end':cur_time
     }
-    assert_equals( [1,2,3], self.series.series('test', 'minute', **kwargs).values()[0] )
-    assert_equals( [1,2,3], self.series.series('test', 'hour', **kwargs).values()[0] )
+    assert_equals( [1,2,3], list(self.series.series('test', 'minute', **kwargs).values())[0] )
+    assert_equals( [1,2,3], list(self.series.series('test', 'hour', **kwargs).values())[0] )
     self.series.expire('test')
-    assert_equals( [2,3], self.series.series('test', 'minute', **kwargs).values()[0] )
-    assert_equals( [1,2,3], self.series.series('test', 'hour', **kwargs).values()[0] )
+    assert_equals( [2,3], list(self.series.series('test', 'minute', **kwargs).values())[0] )
+    assert_equals( [1,2,3], list(self.series.series('test', 'hour', **kwargs).values())[0] )
 
     self.series.delete('test')
 

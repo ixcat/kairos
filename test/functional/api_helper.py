@@ -1,5 +1,5 @@
-from helper_helper import *
-from helper_helper import _time
+from .helper_helper import *
+from .helper_helper import _time
 
 @unittest.skipUnless( os.environ.get('TEST_API','true').lower()=='true', 'skipping api' )
 class ApiHelper(Chai):

@@ -1,5 +1,5 @@
-from helper_helper import *
-from helper_helper import _time
+from .helper_helper import *
+from .helper_helper import _time
 
 @unittest.skipUnless( os.environ.get('TEST_GREGORIAN','true').lower()=='true', 'skipping gregorian' )
 class GregorianHelper(Chai):
@@ -81,24 +81,24 @@ class GregorianHelper(Chai):
       d = datetime(year=2038, month=1, day=1) + timedelta(days=day)
       t = time.mktime( d.timetuple() )
       self.series.insert( 'test', 1, t )
-    feb1 = long( time.mktime( datetime(year=2038,month=2,day=1).timetuple() ) )
+    feb1 = int( time.mktime( datetime(year=2038,month=2,day=1).timetuple() ) )
 
     data = self.series.get('test', 'daily', timestamp=feb1)
     assert_equals( [1], data[feb1] )
 
     data = self.series.get('test', 'weekly', timestamp=feb1)
     assert_equals( 7, len(data) )
-    assert_equals( [1], data.values()[0] )
+    assert_equals( [1], list(data.values())[0] )
 
     data = self.series.get('test', 'weekly', timestamp=feb1, condensed=True)
     assert_equals( 1, len(data) )
-    assert_equals( 7*[1], data.values()[0] )
+    assert_equals( 7*[1], list(data.values())[0] )
 
     data = self.series.get('test', 'monthly', timestamp=feb1)
     assert_equals( 28, len(data[feb1]) )
 
     data = self.series.get('test', 'yearly', timestamp=feb1)
-    assert_equals( 365, len(data.items()[0][1]) )
+    assert_equals( 365, len(list(data.items())[0][1]) )
 
   def test_series(self):
     for day in range(0,2*365):
@@ -106,43 +106,43 @@ class GregorianHelper(Chai):
       t = time.mktime( d.timetuple() )
       self.series.insert( 'test', 1, t )
 
-    start = long( time.mktime( datetime(year=2038,month=1,day=1).timetuple() ) )
-    end = long( time.mktime( datetime(year=2038,month=12,day=31).timetuple() ) )
+    start = int( time.mktime( datetime(year=2038,month=1,day=1).timetuple() ) )
+    end = int( time.mktime( datetime(year=2038,month=12,day=31).timetuple() ) )
 
     data = self.series.series('test', 'daily', start=start, end=end)
     assert_equals( 365, len(data) )
-    assert_equals( [1], data.values()[0] )
-    assert_equals( [1], data.values()[-1] )
+    assert_equals( [1], list(data.values())[0] )
+    assert_equals( [1], list(data.values())[-1] )
 
     data = self.series.series('test', 'weekly', start=start, end=end)
     assert_equals( 53, len(data) )
-    assert_equals( 2, len(data.values()[0]) )
-    assert_equals( 7, len(data.values()[1]) )
-    assert_equals( 6, len(data.values()[-1]) )
-    assert_equals( [1], data.values()[0].values()[0] )
-    assert_equals( [1], data.values()[-1].values()[0] )
+    assert_equals( 2, len(list(data.values())[0]) )
+    assert_equals( 7, len(list(data.values())[1]) )
+    assert_equals( 6, len(list(data.values())[-1]) )
+    assert_equals( [1], list(list(data.values())[0].values())[0] )
+    assert_equals( [1], list(list(data.values())[-1].values())[0] )
 
     data = self.series.series('test', 'weekly', start=start, end=end, condensed=True)
     assert_equals( 53, len(data) )
-    assert_equals( 2*[1], data.values()[0] )
-    assert_equals( 7*[1], data.values()[1] )
-    assert_equals( 6*[1], data.values()[-1] )
+    assert_equals( 2*[1], list(data.values())[0] )
+    assert_equals( 7*[1], list(data.values())[1] )
+    assert_equals( 6*[1], list(data.values())[-1] )
     
     data = self.series.series('test', 'monthly', start=start, end=end)
     assert_equals( 12, len(data) )
-    assert_equals( 31, len(data.values()[0]) ) # jan
-    assert_equals( 28, len(data.values()[1]) ) # feb
-    assert_equals( 30, len(data.values()[3]) ) # april
+    assert_equals( 31, len(list(data.values())[0]) ) # jan
+    assert_equals( 28, len(list(data.values())[1]) ) # feb
+    assert_equals( 30, len(list(data.values())[3]) ) # april
     
     data = self.series.series('test', 'yearly', start=start, end=end)
     assert_equals( 1, len(data) )
-    assert_equals( 365, len(data.values()[0]) )
+    assert_equals( 365, len(list(data.values())[0]) )
     
     data = self.series.series('test', 'yearly', start=start, steps=2)
     assert_equals( 2, len(data) )
-    assert_equals( 365, len(data.values()[0]) )
+    assert_equals( 365, len(list(data.values())[0]) )
     
     data = self.series.series('test', 'yearly', end=end, steps=2)
     assert_equals( 2, len(data) )
-    assert_equals( [], data.values()[0] )
-    assert_equals( 365, len(data.values()[1]) )
+    assert_equals( [], list(data.values())[0] )
+    assert_equals( 365, len(list(data.values())[1]) )
