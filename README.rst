@@ -12,6 +12,14 @@ Kairos - Time series data storage
 
 .. _kairos-overview:
 
+Disclaimer
+==========
+
+This is not the *real* Kairos module, but a hacked up py3 version
+of the SQL only portion - official source is here:
+
+https://github.com/agoragames/kairos
+
 Overview
 ========
 
