@@ -45,7 +45,8 @@ class GregorianTimeTest(Chai):
     gt = GregorianTime( 'daily' )
     buckets = gt.buckets( 0, 60*60*24*42 )
     assert_equals( buckets[:3], [19700101, 19700102, 19700103] )
-    assert_equals( buckets[-3:], [19700209, 19700210, 19700211] )
+    # assert_equals( buckets[-3:], [19700209, 19700210, 19700211] )
+    assert_equals( buckets[-3:], [19700210, 19700211, 19700212] )
 
     gt = GregorianTime( 'weekly' )
     buckets = gt.buckets( 0, 60*60*24*25 )
