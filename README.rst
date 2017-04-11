@@ -20,6 +20,8 @@ of the SQL only portion - official source is here:
 
 https://github.com/agoragames/kairos
 
+This implies also that the above pypi, etc. URLs are incorrect.
+
 Overview
 ========
 
